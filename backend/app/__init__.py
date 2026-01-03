@@ -1,2 +1,0 @@
-# LifeLine Backend Application
-
