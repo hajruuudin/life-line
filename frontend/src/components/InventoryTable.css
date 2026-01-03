@@ -1,0 +1,111 @@
+.inventory-section {
+  min-height: 300px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: var(--cyan-primary);
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-secondary);
+}
+
+.add-button {
+  background: linear-gradient(135deg, var(--cyan-primary) 0%, var(--blue-primary) 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.add-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 188, 212, 0.4);
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.inventory-table thead {
+  background-color: var(--bg-dark);
+}
+
+.inventory-table th {
+  padding: 1rem;
+  text-align: left;
+  color: var(--text-primary);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.inventory-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.inventory-table tbody tr:hover {
+  background-color: var(--bg-dark);
+}
+
+.low-quantity {
+  color: var(--error);
+  font-weight: 600;
+}
+
+.delete-button {
+  background-color: transparent;
+  color: var(--error);
+  border: 1px solid var(--error);
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-button:hover:not(:disabled) {
+  background-color: var(--error);
+  color: white;
+}
+
+.delete-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    font-size: 0.9rem;
+  }
+
+  .inventory-table th,
+  .inventory-table td {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
