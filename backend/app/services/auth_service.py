@@ -85,21 +85,15 @@ class AuthService:
                 user = UserDAO.get_user_by_email(email, connection=conn)
                 
                 if not user:
-                    api_key = secrets.token_urlsafe(32)
                     user = UserDAO.create_user(
                         email=email,
                         name=name,
                         google_id=google_id,
                         google_oauth_token=credentials.token,
                         google_refresh_token=credentials.refresh_token,
-                        api_key=api_key,
                         connection=conn,
                     )
                 else:
-                    if not user.get("api_key"):
-                        api_key = secrets.token_urlsafe(32)
-                        UserDAO.update_api_key(user_id=user["id"], api_key=api_key, connection=conn)
-                        
                     update_success = UserDAO.update_user_google_tokens(
                         user_id=user["id"],
                         google_oauth_token=credentials.token,

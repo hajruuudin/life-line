@@ -74,6 +74,7 @@ A comprehensive web application for tracking family health, managing medication 
 
 1. **Start the backend** (from `backend/` directory)
    ```bash
+   uvicorn app.main:app --reload --port 8080
    ```
    Backend will be available at: http://localhost:8080
    API Documentation: http://localhost:8080/docs

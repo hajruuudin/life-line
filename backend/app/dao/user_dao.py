@@ -72,13 +72,6 @@ class UserDAO:
                 return None
 
     @staticmethod
-    def get_user_by_api_key(api_key: str, connection=None) -> Optional[Dict[str, Any]]:
-        """Get user by API key."""
-        with db.get_cursor(connection=connection) as cursor:
-            # TODO: Implement API key column if needed
-            return None
-
-    @staticmethod
     def update_user_google_tokens(user_id: int, google_oauth_token: str, google_refresh_token: str,
                                   connection=None) -> bool:
         """Update user's Google OAuth tokens. Returns True if update was successful."""
