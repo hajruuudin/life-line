@@ -2,6 +2,8 @@
 -- PostgreSQL Database Schema for Family Health Tracking Application
 -- No triggers or functions used
 
+-- DEPRECATED: This schema is deprecated. Please refer to database_schema_exported.sql for the updated schema.
+
 -- Users table: Stores parent account information and OAuth data
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
