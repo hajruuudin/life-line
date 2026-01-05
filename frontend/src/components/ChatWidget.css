@@ -1,0 +1,41 @@
+.chat-widget-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+  height: 500px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  background-color: var(--bg-dark); /* Using the background color from theme */
+  color: var(--text-primary); /* Using primary text color from theme */
+  border: 1px solid var(--border-color); /* Adding a border for better definition */
+  overflow: hidden; /* Ensure content stays within bounds */
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+/* You might need to add more specific styles for the n8n chat iframe/elements 
+   if they don't inherit styles well. This often requires inspecting the rendered
+   n8n chat in your browser's developer tools. */
+
+.n8n-chat-header {
+  background-color: var(--blue-dark); /* Example header color */
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: bold;
+}
+
+.n8n-chat-input-area {
+  background-color: var(--bg-darker); /* Example input area background */
+  border-top: 1px solid var(--border-color);
+  padding: 10px;
+}
+
+.n8n-chat-message-bubble-user {
+  background-color: var(--cyan-primary); /* Example user message bubble */
+  color: white;
+}
+
+.n8n-chat-message-bubble-bot {
+  background-color: var(--bg-card); /* Example bot message bubble */
+  color: var(--text-primary);
+}

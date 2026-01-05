@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import Hero from '../components/Hero'
 import ActionGrid from '../components/ActionGrid'
 import DataDashboard from '../components/DataDashboard'
+import ChatWidget from '../components/ChatWidget'
 import { familyMembersService } from '../services/familyMembers'
 import { medicationsService } from '../services/medications'
 import { auth } from '../utils/auth.util'
@@ -52,6 +53,7 @@ function HomePage({ setIsAuthenticated }) {
           onDataChange={loadData}
         /> 
       </div>
+      <ChatWidget />
     </div>
   )
 }
