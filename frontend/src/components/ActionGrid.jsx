@@ -1,49 +1,50 @@
-import React, { useState } from 'react'
-import InventoryModal from './modals/InventoryModal'
-import FamilyMemberModal from './modals/FamilyMemberModal'
-import ScheduleEventModal from './modals/ScheduleEventModal'
-import LogUsageModal from './modals/LogUsageModal'
-import './ActionGrid.css'
+import React, { useState } from 'react';
+import InventoryModal from './modals/InventoryModal';
+import FamilyMemberModal from './modals/FamilyMemberModal';
+import ScheduleEventModal from './modals/ScheduleEventModal';
+import LogUsageModal from './modals/LogUsageModal';
+import { FaBoxOpen, FaUsers, FaCalendarAlt, FaPrescriptionBottle } from 'react-icons/fa';
+import './ActionGrid.css';
 
 function ActionGrid({ familyMembers, medications, onDataChange }) {
-  const [activeModal, setActiveModal] = useState(null)
+  const [activeModal, setActiveModal] = useState(null);
 
   const closeModal = () => {
-    setActiveModal(null)
-  }
+    setActiveModal(null);
+  };
 
   const handleModalClose = () => {
-    closeModal()
-    onDataChange()
-  }
+    closeModal();
+    onDataChange();
+  };
 
   return (
     <section className="action-grid-section">
       <div className="action-grid">
-        <button 
-          className="action-button"
+        <button
+          className="action-button inventory"
           onClick={() => setActiveModal('inventory')}
         >
-          Add/Update Inventory
+          <FaBoxOpen /> Add/Update Inventory
         </button>
-        <button 
-          className="action-button"
+        <button
+          className="action-button family-member"
           onClick={() => setActiveModal('family-member')}
         >
-          Add Family Member
+          <FaUsers /> Add Family Member
         </button>
-        <button 
-          className="action-button"
+        <button
+          className="action-button schedule-event"
           onClick={() => setActiveModal('schedule-event')}
         >
-          Schedule Event
+          <FaCalendarAlt /> Schedule Event
         </button>
-        <button 
-          className="action-button"
+        <button
+          className="action-button log-usage"
           onClick={() => setActiveModal('log-usage')}
           disabled={familyMembers.length === 0 || medications.length === 0}
         >
-          Log Usage
+          <FaPrescriptionBottle /> Log Usage
         </button>
       </div>
 
@@ -57,15 +58,14 @@ function ActionGrid({ familyMembers, medications, onDataChange }) {
         <ScheduleEventModal onClose={closeModal} />
       )}
       {activeModal === 'log-usage' && (
-        <LogUsageModal 
+        <LogUsageModal
           familyMembers={familyMembers}
           medications={medications}
           onClose={handleModalClose}
         />
       )}
     </section>
-  )
+  );
 }
 
-export default ActionGrid
-
+export default ActionGrid;

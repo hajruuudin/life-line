@@ -1,100 +1,224 @@
-.drive-section {
-  min-height: 300px;
+/* Modern DriveSection Styles */
+.drive-section.modern {
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0; /* Remove padding from the main container to allow header to span full width */
+  border-radius: 1rem; /* New border-radius */
 }
 
-.section-header {
+.drive-section.modern.drag-active {
+  border-color: var(--cyan-primary);
+  box-shadow: 0 0 20px rgba(0, 188, 212, 0.3);
+}
+
+.drive-section.modern .section-header {
+  background-color: var(--bg-dark-accent); /* A slightly different shade */
+  padding: 1rem 1.5rem; /* Padding on all sides */
+  border-radius: 1rem 1rem 0 0; /* Rounded corners only on top */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5rem; /* Keep some margin below the header */
 }
 
-.section-title {
-  font-size: 1.5rem;
-  color: var(--cyan-primary);
-  font-weight: 600;
+.drive-section.modern .section-title {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  margin: 0; /* Remove default margin from h3 */
 }
 
-.upload-button,
-.setup-button {
-  background: linear-gradient(135deg, var(--cyan-primary) 0%, var(--blue-primary) 100%);
+.add-new-file-button {
+  background: var(--cyan-primary);
   color: white;
-  border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 0.5rem;
-  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.2s;
+  border: none;
+  display: flex;
+  gap: 5px;
+  align-items: center;
 }
 
-.upload-button:hover:not(:disabled),
-.setup-button:hover {
+.add-new-file-button:hover {
+  background: var(--cyan-dark);
+  transform: translateY(-2px);
+}
+
+
+/* Not Connected State */
+.drive-section.modern.not-connected {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.drive-section.modern .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-grow: 1;
+  color: var(--text-secondary);
+  padding: 1.5rem; /* Added padding to empty state */
+}
+
+.drive-section.modern .empty-state-icon {
+  margin-bottom: 1rem;
+  color: var(--cyan-primary);
+}
+
+.drive-section.modern .empty-state-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.drive-section.modern .empty-state-subtitle {
+  font-size: 0.9rem;
+  max-width: 300px;
+  margin-bottom: 1.5rem;
+}
+
+.drive-section.modern .setup-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--cyan-primary) 0%, var(--blue-primary) 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.drive-section.modern .setup-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(0, 188, 212, 0.4);
 }
 
-.upload-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+/* Files Grid Layout */
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  flex-grow: 1;
+  padding: 0 1.5rem; /* Added padding to content below header */
 }
 
-.empty-state {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: var(--text-secondary);
-}
-
-.empty-state-subtitle {
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.loading-state {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: var(--text-secondary);
-}
-
-.files-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.file-item {
-  padding: 1rem;
+.file-card {
   background-color: var(--bg-dark);
   border: 1px solid var(--border-color);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
+  padding: 1rem;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.file-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--cyan-primary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.file-card-header {
+  display: flex;
   align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.file-icon {
+  font-size: 1.5rem;
+  color: var(--cyan-primary);
+  flex-shrink: 0;
 }
 
 .file-name {
   color: var(--text-primary);
   font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .file-type {
   color: var(--text-secondary);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  background-color: var(--bg-dark-accent);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
 }
 
-@media (max-width: 768px) {
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .upload-button,
-  .setup-button {
-    width: 100%;
-  }
+.delete-icon-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: all 0.2s;
 }
 
+.delete-icon-button:hover {
+  color: var(--red-500);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Upload Styling */
+.upload-button-styled {
+  display: inline-block;
+  background: var(--cyan-primary);
+  color: var(--bg-dark);
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.upload-button-styled input[type='file'] {
+  display: none;
+}
+.upload-button-styled:hover {
+  background: var(--cyan-dark);
+  transform: translateY(-2px);
+}
+
+/* The .upload-footer section is removed as per the user's request */
+
+/* Drag Overlay */
+.drag-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(10, 25, 47, 0.8);
+  border: 2px dashed var(--cyan-primary);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  z-index: 10;
+}
+.drag-overlay svg {
+  color: var(--cyan-primary);
+}

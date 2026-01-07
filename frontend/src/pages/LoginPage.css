@@ -3,30 +3,38 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+  background-image: url(/assets/images/AUTH_BG.png);
+  background-size: contain;
+  transition: background-position 0.1s ease-in-out;
 }
 
 .login-container {
   text-align: center;
-  padding: 3rem;
-  background-color: var(--bg-card);
-  border-radius: 1rem;
+  padding: 5rem;
+  background-color: rgba(23, 26, 33, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 1.5rem;
   border: 1px solid var(--border-color);
   box-shadow: 0 8px 32px rgba(0, 188, 212, 0.1);
 }
 
 .login-logo {
-  font-size: 3rem;
+  font-size: 5rem;
   font-weight: bold;
-  color: var(--cyan-primary);
+  background: -webkit-linear-gradient(45deg, var(--cyan-primary), var(--blue-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-bottom: 1rem;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.3rem;
 }
 
 .login-subtitle {
   color: var(--text-secondary);
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  font-size: 1.3rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .login-button {
@@ -48,4 +56,3 @@
 .login-button:active {
   transform: translateY(0);
 }
-

@@ -6,7 +6,7 @@ const { defineConfig, devices } = require('@playwright/test');
  * @see https://playwright.dev/docs/test-configuration
  */
 module.exports = defineConfig({
-  testDir: './tests', // Look for tests in the 'tests' directory
+  testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -21,7 +21,7 @@ module.exports = defineConfig({
       name: 'firefox',
       use: {
         ...devices['Desktop Firefox'],
-        headless: false, // Ensure the browser window is visible
+        headless: false,
       },
     },
   ],

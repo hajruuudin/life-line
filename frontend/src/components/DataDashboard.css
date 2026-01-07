@@ -22,3 +22,15 @@
   }
 }
 
+@media (max-width: 768px) {
+  .dashboard-column {
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
+  }
+
+  .dashboard-row {
+    gap: 0;
+  }
+}

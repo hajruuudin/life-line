@@ -104,7 +104,7 @@ class AuthService:
                         error_msg = f"Failed to update user Google tokens for user ID: {user['id']}"
                         raise Exception(error_msg)
                 
-                token_expiry = credentials.expiry if credentials.expiry else datetime.now(timezone.utc) + timedelta(hours=1)
+                token_expiry = credentials.expiry if credentials.expiry else datetime.now(timezone.utc) + timedelta(hours=24)
                 
                 GoogleCredentialsDAO.create_or_update_credentials(
                     user_id=user["id"],

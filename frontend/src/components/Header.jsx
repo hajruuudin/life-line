@@ -3,7 +3,6 @@ import { n8nService } from '../services/n8n'
 import './Header.css'
 
 function Header({ onLogout }) {
-  
 
   return (
     <header className="app-header">

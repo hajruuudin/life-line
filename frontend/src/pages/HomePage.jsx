@@ -40,7 +40,7 @@ function HomePage({ setIsAuthenticated }) {
 
   return (
     <div className="home-page">
-      <Header  />
+      <Header  onLogout={handleLogout}/>
       <div className="home-content">
         <Hero />
         <ActionGrid 
