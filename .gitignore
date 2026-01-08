@@ -1,0 +1,10 @@
+/frontend/node_modules/
+__pycache__
+/backend/.venv
+/backend/venv/
+/.DS_Store
+/logs/
+/backend/.env
+/frontend/.env
+test-results/
+.gemini
