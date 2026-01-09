@@ -2,6 +2,7 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Dict, List, Any
 from app.services.google_calendar_service import GoogleCalendarService
 from app.utils.dependencies import get_current_user
 
@@ -14,6 +15,34 @@ class CalendarEventCreate(BaseModel):
     start_time: datetime
     end_time: datetime
     description: str = ""
+
+
+@router.get("/upcoming")
+async def get_upcoming_events(
+    current_user: dict = Depends(get_current_user),
+) -> Dict[str, Any]:
+    """
+    Get upcoming events from the LIFELINE calendar for the next 7 days.
+    Returns events grouped by date, with a maximum of 3 events per day.
+    """
+    try:
+        events = GoogleCalendarService.get_upcoming_events(
+            user_id=current_user["id"],
+            days=7,
+            max_per_day=3,
+        )
+        return {"events": events, "message": "Events retrieved successfully"}
+    except ValueError as e:
+        # User hasn't granted calendar access
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Calendar access not granted. Please re-login and allow calendar access to use this feature.",
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching events: {str(e)}",
+        )
 
 
 @router.post("/events")
