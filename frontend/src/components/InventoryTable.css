@@ -5,6 +5,7 @@
   min-height: 380px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .inventory-section.modern .section-header {
@@ -72,6 +73,7 @@
 .table-container {
   overflow-x: auto;
   flex-grow: 1;
+  padding: 1.5rem;
 }
 
 .inventory-table-modern {
@@ -183,38 +185,8 @@
 
 .new-header {
   background-color: var(--bg-dark-accent);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.new-header .add-button-styled {
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-}
-
-.new-header {
-  background-color: var(--bg-dark-accent);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.new-header .add-button-styled {
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-}
-
-.new-header {
-  background-color: var(--bg-dark-accent);
-  padding: 1rem;
-  border-radius: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem 1rem 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -230,7 +202,29 @@
   .hide-on-mobile {
     display: none;
   }
+  
   .inventory-section.modern {
     border-radius: 0;
+    min-height: auto;
+  }
+
+  .table-container {
+    padding: 1rem;
+  }
+
+  .inventory-table-modern {
+    font-size: 0.85rem;
+  }
+
+  .inventory-table-modern th,
+  .inventory-table-modern td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .inventory-table-modern td:first-child {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
