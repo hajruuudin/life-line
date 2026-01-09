@@ -68,6 +68,16 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(40, 49, 73, 0.3);
   }
+
+  .action-button.log-illness {
+    background-color: #3d2944; /* Dark Purple/Maroon */
+  }
+
+  .action-button.log-illness:hover:not(:disabled) {
+    background-color: #4f3657; /* Lighter Purple/Maroon */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(61, 41, 68, 0.3);
+  }
   
   @media (max-width: 768px) {
     .action-grid {
