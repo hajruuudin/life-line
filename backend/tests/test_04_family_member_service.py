@@ -18,7 +18,7 @@ The tests:
 - Delete family member
 """
 
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import patch
 from app.services.family_member_service import FamilyMemberService
 from app.models.family_member import FamilyMemberCreate, FamilyMemberUpdate
 

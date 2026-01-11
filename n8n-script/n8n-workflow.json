@@ -158,7 +158,7 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=Take this file and generate a summarisation of its content. Be precise, punctial and make it no longer than 2000 characters. Also Take the name and just give it in the format:\n\n{title of the book} : {author of the book}\n\nFIlename:\n{{ $json.info.Title }}\n\nText:\n{{ $json.text }}",
+        "text": "=Take this file and generate a summarisation of its content. Be precise and concise, and make it no longer than 2000 characters. Also Take the name and just give it in the format:\n\n{title of the book} : {author of the book}\n\nFIlename:\n{{ $json.info.Title }}\n\nText:\n{{ $json.text }}",
         "hasOutputParser": true,
         "options": {}
       },

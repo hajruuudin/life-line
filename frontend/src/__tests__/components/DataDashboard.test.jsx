@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import DataDashboard from '../../components/DataDashboard';
-import * as medicationsService from '../../services/medications';
 
 vi.mock('../../services/medications');
 vi.mock('../../components/DriveSection', () => ({

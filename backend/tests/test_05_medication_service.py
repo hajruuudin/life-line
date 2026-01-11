@@ -19,7 +19,7 @@ The tests:
 - Delete medication
 """
 
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import patch
 from app.services.medication_service import MedicationService
 from app.models.medication import MedicationCreate, MedicationUpdate
 
