@@ -10,6 +10,7 @@ from app.config import settings
 from app.dao.user_dao import UserDAO
 from app.dao.google_credentials_dao import GoogleCredentialsDAO
 from app.services.google_drive_service import GoogleDriveService
+from app.services.google_calendar_service import GoogleCalendarService
 from app.utils.jwt import create_access_token
 from app.models.user import UserResponse
 
@@ -117,6 +118,13 @@ class AuthService:
                 # Find or create the Google Drive folder
                 folder_id = GoogleDriveService.find_or_create_app_folder(user["id"], credentials, connection=conn)
                 logger.info(f"Ensured Drive folder exists for user {user['id']} with folder ID {folder_id}")
+
+                # Find or create the LIFELINE calendar
+                try:
+                    lifeline_calendar_id = GoogleCalendarService.find_or_create_lifeline_calendar(user["id"], credentials)
+                    logger.info(f"Ensured LIFELINE calendar exists for user {user['id']} with calendar ID {lifeline_calendar_id}")
+                except Exception as e:
+                    logger.warning(f"Could not create LIFELINE calendar for user {user['id']}: {e}")
 
                 # Re-fetch the user to get the updated drive_folder_id
                 user = UserDAO.get_user_by_id(user["id"], connection=conn)

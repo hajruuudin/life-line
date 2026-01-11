@@ -7,6 +7,7 @@
   position: relative;
   padding: 0; /* Remove padding from the main container to allow header to span full width */
   border-radius: 1rem; /* New border-radius */
+  overflow: hidden;
 }
 
 .drive-section.modern.drag-active {
@@ -21,7 +22,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem; /* Keep some margin below the header */
 }
 
 .drive-section.modern .section-title {
@@ -108,7 +108,7 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
   flex-grow: 1;
-  padding: 0 1.5rem; /* Added padding to content below header */
+  padding: 1.5rem;
 }
 
 .file-card {
@@ -221,4 +221,23 @@
 }
 .drag-overlay svg {
   color: var(--cyan-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .drive-section.modern {
+    min-height: auto;
+  }
+
+  .files-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .file-type {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }

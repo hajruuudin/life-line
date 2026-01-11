@@ -1,11 +1,13 @@
 .data-dashboard {
   margin-bottom: 2rem;
+  overflow-x: hidden;
 }
 
 .dashboard-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
+  overflow: hidden;
 }
 
 .dashboard-column {
@@ -13,6 +15,8 @@
   border: 1px solid var(--border-color);
   border-radius: 1rem;
   padding: 1.5rem;
+  overflow: hidden;
+  min-width: 0;
 }
 
 @media (max-width: 1024px) {

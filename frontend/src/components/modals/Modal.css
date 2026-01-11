@@ -158,3 +158,58 @@
   border-color: #00c49f;
   color: #00c49f;
 }
+
+/* Event Detail Modal Styles */
+.event-detail-modal {
+  max-width: 450px;
+}
+
+.event-detail-body {
+  text-align: left;
+}
+
+.event-detail-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #00bcd4;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 188, 212, 0.2);
+}
+
+.event-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.event-detail-icon {
+  color: #00bcd4;
+  font-size: 1.1rem;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.event-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.event-detail-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.event-detail-value {
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.event-detail-value.description {
+  white-space: pre-wrap;
+  line-height: 1.5;
+}

@@ -1,12 +1,14 @@
 .home-page {
   min-height: 100vh;
   background-color: var(--bg-dark);
+  overflow-x: hidden;
 }
 
 .home-content {
   max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
+  overflow-x: hidden;
 }
 
 @media (max-width: 768px) {
