@@ -93,7 +93,7 @@ describe('DriveSection Component', () => {
 
   it('should retry loading on Connect Now click', async () => {
     googleDriveService.listFiles.mockResolvedValue({ files: [], connected: false });
-    const { rerender } = render(<DriveSection />);
+    render(<DriveSection />);
 
     await waitFor(() => {
       expect(screen.getByText('Connect Now')).toBeInTheDocument();

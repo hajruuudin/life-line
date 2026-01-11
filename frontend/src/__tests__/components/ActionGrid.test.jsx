@@ -153,7 +153,6 @@ describe('ActionGrid Component', () => {
   it('should call onDataChange when modal closes', async () => {
     // Arrange
     const mockOnDataChange = vi.fn()
-    const user = userEvent.setup()
 
     render(
       <ActionGrid

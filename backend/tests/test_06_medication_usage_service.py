@@ -21,7 +21,7 @@ The tests:
 - Get usage logs
 """
 
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import patch
 from app.services.medication_usage_service import MedicationUsageService
 from app.models.medication_usage import MedicationUsageCreate
 import pytest
