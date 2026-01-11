@@ -1,0 +1,263 @@
+/* Illness Timeline Styles */
+.illness-timeline.modern {
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0;
+  border-radius: 1rem;
+  margin-top: 2rem;
+  overflow: hidden;
+}
+
+.illness-timeline.modern .section-header {
+  background-color: var(--bg-dark-accent);
+  padding: 1rem 1.5rem;
+  border-radius: 1rem 1rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.illness-timeline.modern .section-title {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.illness-timeline.modern .section-icon {
+  color: var(--cyan-primary);
+}
+
+.illness-timeline.modern .loading-state,
+.illness-timeline.modern .error-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  color: var(--text-secondary);
+  padding: 2rem;
+}
+
+.illness-timeline.modern .error-state {
+  color: var(--red-500);
+}
+
+/* Filter */
+.filter-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-icon {
+  color: var(--text-secondary);
+}
+
+.filter-select {
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--cyan-primary);
+}
+
+/* Content */
+.timeline-content {
+  padding: 1.5rem;
+  background-color: var(--bg-dark-accent);
+  border-radius: 0 0 1rem 1rem;
+}
+
+/* Empty State */
+.illness-timeline.modern .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 3rem 1.5rem;
+}
+
+.illness-timeline.modern .empty-state-icon {
+  margin-bottom: 1rem;
+  color: var(--cyan-primary);
+}
+
+.illness-timeline.modern .empty-state-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.illness-timeline.modern .empty-state-subtitle {
+  font-size: 0.9rem;
+  max-width: 300px;
+}
+
+/* Table */
+.timeline-table-container {
+  overflow-x: auto;
+}
+
+.timeline-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.75rem;
+}
+
+.timeline-table th {
+  padding: 0 1rem 1rem 1rem;
+  text-align: left;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.timeline-table td {
+  padding: 1rem;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.timeline-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.timeline-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-table td:first-child {
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.timeline-table td:last-child {
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+.member-name {
+  font-weight: 600;
+  color: var(--cyan-primary);
+}
+
+.illness-name {
+  font-weight: 500;
+}
+
+/* Pills */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.status-pill.ongoing {
+  background-color: rgba(251, 146, 60, 0.2);
+  color: #fb923c;
+}
+
+.duration-pill {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.duration-pill.ongoing {
+  background-color: rgba(251, 146, 60, 0.2);
+  color: #fb923c;
+}
+
+/* Actions */
+.delete-icon-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.delete-icon-button:hover {
+  color: var(--red-500);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.delete-icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Alignment */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .illness-timeline.modern .section-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .filter-container {
+    width: 100%;
+  }
+
+  .filter-select {
+    flex: 1;
+  }
+
+  .timeline-content {
+    padding: 1rem;
+  }
+
+  .timeline-table {
+    font-size: 0.85rem;
+  }
+
+  .timeline-table th,
+  .timeline-table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .timeline-table td:first-child {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

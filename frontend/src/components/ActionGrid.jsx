@@ -3,7 +3,8 @@ import InventoryModal from './modals/InventoryModal';
 import FamilyMemberModal from './modals/FamilyMemberModal';
 import ScheduleEventModal from './modals/ScheduleEventModal';
 import LogUsageModal from './modals/LogUsageModal';
-import { FaBoxOpen, FaUsers, FaCalendarAlt, FaPrescriptionBottle } from 'react-icons/fa';
+import IllnessLogModal from './modals/IllnessLogModal';
+import { FaBoxOpen, FaUsers, FaCalendarAlt, FaPrescriptionBottle, FaThermometerHalf } from 'react-icons/fa';
 import './ActionGrid.css';
 
 function ActionGrid({ familyMembers, medications, onDataChange }) {
@@ -46,6 +47,13 @@ function ActionGrid({ familyMembers, medications, onDataChange }) {
         >
           <FaPrescriptionBottle /> Log Usage
         </button>
+        <button
+          className="action-button log-illness"
+          onClick={() => setActiveModal('log-illness')}
+          disabled={familyMembers.length === 0}
+        >
+          <FaThermometerHalf /> Log Illness
+        </button>
       </div>
 
       {activeModal === 'inventory' && (
@@ -61,6 +69,12 @@ function ActionGrid({ familyMembers, medications, onDataChange }) {
         <LogUsageModal
           familyMembers={familyMembers}
           medications={medications}
+          onClose={handleModalClose}
+        />
+      )}
+      {activeModal === 'log-illness' && (
+        <IllnessLogModal
+          familyMembers={familyMembers}
           onClose={handleModalClose}
         />
       )}

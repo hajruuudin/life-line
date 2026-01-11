@@ -4,7 +4,7 @@ import sys
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.controllers import auth, family_members, medications, medication_usage, google_drive, google_calendar, n8n_controller
+from app.controllers import auth, family_members, medications, medication_usage, google_drive, google_calendar, n8n_controller, illness_logs
 
 
 # Configure logging
@@ -43,6 +43,7 @@ app.include_router(medication_usage.router, prefix="/medication-usage", tags=["M
 app.include_router(google_drive.router, prefix="/drive", tags=["Google Drive"])
 app.include_router(google_calendar.router, prefix="/calendar", tags=["Google Calendar"])
 app.include_router(n8n_controller.router, prefix="/n8n", tags=["N8N"])
+app.include_router(illness_logs.router, prefix="/illness-logs", tags=["Illness Logs"])
 
 
 
