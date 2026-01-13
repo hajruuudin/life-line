@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Header from '../components/Header'
 import Hero from '../components/Hero'
 import ActionGrid from '../components/ActionGrid'
@@ -14,6 +14,8 @@ function HomePage({ setIsAuthenticated }) {
   const [familyMembers, setFamilyMembers] = useState([])
   const [medications, setMedications] = useState([])
   const [loading, setLoading] = useState(true)
+  const illnessTimelineRef = useRef(null)
+  const calendarRef = useRef(null)
 
   useEffect(() => {
     loadData()
@@ -39,6 +41,14 @@ function HomePage({ setIsAuthenticated }) {
     setIsAuthenticated(false)
   }
 
+  const handleIllnessRefresh = () => {
+    illnessTimelineRef.current?.refresh()
+  }
+
+  const handleCalendarRefresh = () => {
+    calendarRef.current?.refresh()
+  }
+
   return (
     <div className="home-page">
       <Header  onLogout={handleLogout}/>
@@ -48,12 +58,15 @@ function HomePage({ setIsAuthenticated }) {
           familyMembers={familyMembers}
           medications={medications}
           onDataChange={loadData}
+          onIllnessRefresh={handleIllnessRefresh}
+          onCalendarRefresh={handleCalendarRefresh}
         />
         <DataDashboard 
           medications={medications}
           onDataChange={loadData}
+          ref={calendarRef}
         />
-        <IllnessTimeline familyMembers={familyMembers} />
+        <IllnessTimeline familyMembers={familyMembers} ref={illnessTimelineRef} />
       </div>
       <ChatWidget />
     </div>

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { auth } from '../utils/auth.util';
 
 const ChatWidget = () => {
   useEffect(() => {
@@ -15,6 +16,10 @@ const ChatWidget = () => {
       import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
       createChat({
         webhookUrl: 'https://www.n8n-hajruuudin.xyz/webhook/ae76ce14-17ab-4bfb-9008-18a814c80cbd/chat',
+        metadata: {
+          userId: '${auth.getUserId()}',
+          email: '${auth.getUserEmail()}' 
+        },
         showWelcomeScreen: true,
         initialMessages: [
           'Hello, this is your LIFELINE assistant speaking! Ask me anything regarding medicine or your prescriptions and I will help You!'

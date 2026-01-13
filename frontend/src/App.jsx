@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import GoogleCallbackPage from "./pages/GoogleCallbackPage";
@@ -30,6 +31,31 @@ function App() {
 
   return (
     <Router>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: 'var(--bg-card)',
+            color: 'var(--text-primary)',
+            border: '1px solid var(--border-color)',
+            borderRadius: '8px',
+            padding: '12px 16px',
+          },
+          success: {
+            iconTheme: {
+              primary: 'var(--success)',
+              secondary: 'var(--bg-card)',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: 'var(--error)',
+              secondary: 'var(--bg-card)',
+            },
+          },
+        }}
+      />
       <Routes>
         <Route path="/auth/google/callback" element={<GoogleCallbackPage />} />
 

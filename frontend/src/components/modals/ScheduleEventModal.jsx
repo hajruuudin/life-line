@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { googleCalendarService } from '../../services/googleCalendar'
 import './Modal.css'
 
-function ScheduleEventModal({ onClose }) {
+function ScheduleEventModal({ onClose, onSuccess }) {
   const [formData, setFormData] = useState({
     summary: '',
     start_time: '',
@@ -24,7 +25,8 @@ function ScheduleEventModal({ onClose }) {
         end_time: new Date(formData.end_time).toISOString(),
         description: formData.description,
       })
-      alert('Event scheduled successfully!')
+      toast.success('Event scheduled successfully!')
+      if (onSuccess) onSuccess()
       onClose()
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to schedule event')
