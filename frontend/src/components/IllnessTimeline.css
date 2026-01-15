@@ -4,10 +4,12 @@
   flex-direction: column;
   transition: all 0.3s ease;
   position: relative;
-  padding: 0;
+  padding: 1.5rem;
   border-radius: 1rem;
   margin-top: 2rem;
   overflow: hidden;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
 }
 
 .illness-timeline.modern .section-header {
@@ -260,4 +262,58 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+/* AI Suggestion Styles */
+.expand-button {
+  background: none;
+  border: none;
+  color: var(--cyan-primary);
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expand-button:hover {
+  background-color: rgba(34, 211, 238, 0.1);
+}
+
+.no-suggestion {
+  color: var(--text-secondary);
+}
+
+.suggestion-row td {
+  background-color: var(--bg-dark) !important;
+  border-radius: 0 !important;
+  padding-top: 0 !important;
+}
+
+.suggestion-row:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.ai-suggestion-content {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.1) 0%, rgba(34, 211, 238, 0.05) 100%);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin: 0 1rem 0.5rem 1rem;
+}
+
+.ai-suggestion-content strong {
+  color: var(--cyan-primary);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.suggestion-text {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
 }

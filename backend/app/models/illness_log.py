@@ -11,6 +11,7 @@ class IllnessLogCreate(BaseModel):
     start_date: date
     end_date: Optional[date] = None
     notes: Optional[str] = None
+    ai_suggestion: Optional[str] = None
 
 
 class IllnessLogUpdate(BaseModel):
@@ -19,6 +20,7 @@ class IllnessLogUpdate(BaseModel):
     start_date: Optional[date] = None
     end_date: Optional[date] = None
     notes: Optional[str] = None
+    ai_suggestion: Optional[str] = None
 
 
 class IllnessLogResponse(BaseModel):
@@ -30,6 +32,7 @@ class IllnessLogResponse(BaseModel):
     start_date: date
     end_date: Optional[date]
     notes: Optional[str]
+    ai_suggestion: Optional[str] = None
     created_at: datetime
     updated_at: datetime
     

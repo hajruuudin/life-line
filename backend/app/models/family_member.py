@@ -8,12 +8,18 @@ class FamilyMemberCreate(BaseModel):
     """DTO for creating a family member."""
     name: str
     date_of_birth: Optional[date] = None
+    gender: Optional[str] = None
+    profession: Optional[str] = None
+    health_notes: Optional[str] = None
 
 
 class FamilyMemberUpdate(BaseModel):
     """DTO for updating a family member."""
     name: Optional[str] = None
     date_of_birth: Optional[date] = None
+    gender: Optional[str] = None
+    profession: Optional[str] = None
+    health_notes: Optional[str] = None
 
 
 class FamilyMemberResponse(BaseModel):
@@ -22,6 +28,9 @@ class FamilyMemberResponse(BaseModel):
     user_id: int
     name: str
     date_of_birth: Optional[date]
+    gender: Optional[str] = None
+    profession: Optional[str] = None
+    health_notes: Optional[str] = None
     created_at: datetime
     updated_at: datetime
     

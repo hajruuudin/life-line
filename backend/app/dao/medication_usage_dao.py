@@ -23,9 +23,11 @@ class MedicationUsageDAO:
         """Get all usage logs for a user (via family members)."""
         with db.get_cursor(connection=connection) as cursor:
             cursor.execute("""
-                SELECT mu.id, mu.family_member_id, mu.medication_id, mu.used_at, mu.quantity_used, mu.created_at, mu.updated_at
+                SELECT mu.id, mu.family_member_id, mu.medication_id, mu.used_at, mu.quantity_used, mu.created_at, mu.updated_at,
+                       fm.name as family_member_name, m.name as medication_name
                 FROM medication_usage mu
                 JOIN family_members fm ON mu.family_member_id = fm.id
+                JOIN medications m ON mu.medication_id = m.id
                 WHERE fm.user_id = %s
                 ORDER BY mu.used_at DESC
             """, (user_id,))

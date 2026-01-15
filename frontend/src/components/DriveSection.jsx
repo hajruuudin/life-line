@@ -6,7 +6,7 @@ import DeleteFileModal from './modals/DeleteFileModal'
 import { FiFile, FiTrash2, FiUploadCloud, FiZap, FiXCircle, FiPlus } from 'react-icons/fi'
 import './DriveSection.css'
 
-function DriveSection() {
+function DriveSection({ aiDriveEnabled = true }) {
   const [files, setFiles] = useState([])
   const [connected, setConnected] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -91,6 +91,20 @@ function DriveSection() {
       <div className="drive-section modern">
         <h3 className="section-title">Google Drive</h3>
         <div className="loading-state">Loading files...</div>
+      </div>
+    )
+  }
+
+  if (!aiDriveEnabled) {
+    return (
+      <div className="drive-section modern not-connected">
+        <div className="empty-state">
+          <FiXCircle size={48} className="empty-state-icon disabled" />
+          <h4 className="empty-state-title">Drive AI Disabled</h4>
+          <p className="empty-state-subtitle">
+            The n8n AI integration for Google Drive is disabled by your administrator.
+          </p>
+        </div>
       </div>
     )
   }

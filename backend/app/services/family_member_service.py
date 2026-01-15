@@ -15,6 +15,9 @@ class FamilyMemberService:
             user_id=user_id,
             name=member_data.name,
             date_of_birth=member_data.date_of_birth,
+            gender=member_data.gender,
+            profession=member_data.profession,
+            health_notes=member_data.health_notes,
         )
     
     @staticmethod
@@ -35,6 +38,9 @@ class FamilyMemberService:
             user_id=user_id,
             name=member_data.name,
             date_of_birth=member_data.date_of_birth,
+            gender=member_data.gender,
+            profession=member_data.profession,
+            health_notes=member_data.health_notes,
         )
     
     @staticmethod

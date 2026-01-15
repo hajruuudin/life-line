@@ -1,6 +1,7 @@
 """Medication usage DTOs."""
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 
 class MedicationUsageCreate(BaseModel):
@@ -19,6 +20,8 @@ class MedicationUsageResponse(BaseModel):
     quantity_used: int
     created_at: datetime
     updated_at: datetime
+    family_member_name: Optional[str] = None
+    medication_name: Optional[str] = None
     
     class Config:
         from_attributes = True

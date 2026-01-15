@@ -5,6 +5,9 @@ from datetime import datetime
 from typing import Dict, List, Any
 from app.services.google_calendar_service import GoogleCalendarService
 from app.utils.dependencies import get_current_user
+import logging
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -39,6 +42,7 @@ async def get_upcoming_events(
             detail="Calendar access not granted. Please re-login and allow calendar access to use this feature.",
         )
     except Exception as e:
+        logger.exception(f"Error fetching calendar events for user {current_user['id']}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error fetching events: {str(e)}",

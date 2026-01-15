@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react'
 import { illnessLogsService } from '../services/illnessLogs'
-import { FiThermometer, FiTrash2, FiFilter } from 'react-icons/fi'
+import { FiThermometer, FiTrash2, FiFilter, FiChevronDown, FiChevronUp } from 'react-icons/fi'
 import './IllnessTimeline.css'
 
-const IllnessTimeline = forwardRef(function IllnessTimeline({ familyMembers }, ref) {
+const IllnessTimeline = forwardRef(function IllnessTimeline({ familyMembers, aiSuggestionsEnabled = true }, ref) {
   const [logs, setLogs] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [filterMemberId, setFilterMemberId] = useState('')
   const [deleting, setDeleting] = useState(null)
+  const [expandedRows, setExpandedRows] = useState(new Set())
 
   const loadLogs = useCallback(async () => {
     setLoading(true)
@@ -67,6 +68,18 @@ const IllnessTimeline = forwardRef(function IllnessTimeline({ familyMembers }, r
   }
 
   const isOngoing = (endDate) => !endDate
+
+  const toggleRow = (logId) => {
+    setExpandedRows(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(logId)) {
+        newSet.delete(logId)
+      } else {
+        newSet.add(logId)
+      }
+      return newSet
+    })
+  }
 
   if (loading) {
     return (
@@ -127,37 +140,65 @@ const IllnessTimeline = forwardRef(function IllnessTimeline({ familyMembers }, r
                   <th>Start Date</th>
                   <th>End Date</th>
                   <th className="text-center">Duration</th>
+                  {aiSuggestionsEnabled && <th className="text-center">AI Tips</th>}
                   <th className="text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {logs.map((log) => (
-                  <tr key={log.id}>
-                    <td className="member-name">{log.family_member_name}</td>
-                    <td className="illness-name">{log.illness_name}</td>
-                    <td>{formatDate(log.start_date)}</td>
-                    <td>
-                      {isOngoing(log.end_date) ? (
-                        <span className="status-pill ongoing">Ongoing</span>
-                      ) : (
-                        formatDate(log.end_date)
+                  <React.Fragment key={log.id}>
+                    <tr>
+                      <td className="member-name">{log.family_member_name}</td>
+                      <td className="illness-name">{log.illness_name}</td>
+                      <td>{formatDate(log.start_date)}</td>
+                      <td>
+                        {isOngoing(log.end_date) ? (
+                          <span className="status-pill ongoing">Ongoing</span>
+                        ) : (
+                          formatDate(log.end_date)
+                        )}
+                      </td>
+                      <td className="text-center">
+                        <span className={`duration-pill ${isOngoing(log.end_date) ? 'ongoing' : ''}`}>
+                          {calculateDuration(log.start_date, log.end_date)}
+                        </span>
+                      </td>
+                      {aiSuggestionsEnabled && (
+                        <td className="text-center">
+                          {log.ai_suggestion ? (
+                            <button
+                              className="expand-button"
+                              onClick={() => toggleRow(log.id)}
+                              title={expandedRows.has(log.id) ? 'Hide suggestions' : 'Show suggestions'}
+                            >
+                              {expandedRows.has(log.id) ? <FiChevronUp /> : <FiChevronDown />}
+                            </button>
+                          ) : (
+                            <span className="no-suggestion">-</span>
+                          )}
+                        </td>
                       )}
-                    </td>
-                    <td className="text-center">
-                      <span className={`duration-pill ${isOngoing(log.end_date) ? 'ongoing' : ''}`}>
-                        {calculateDuration(log.start_date, log.end_date)}
-                      </span>
-                    </td>
-                    <td className="text-right">
-                      <button
-                        className="delete-icon-button"
-                        onClick={() => handleDelete(log.id)}
-                        disabled={deleting === log.id}
-                      >
-                        {deleting === log.id ? '...' : <FiTrash2 />}
-                      </button>
-                    </td>
-                  </tr>
+                      <td className="text-right">
+                        <button
+                          className="delete-icon-button"
+                          onClick={() => handleDelete(log.id)}
+                          disabled={deleting === log.id}
+                        >
+                          {deleting === log.id ? '...' : <FiTrash2 />}
+                        </button>
+                      </td>
+                    </tr>
+                    {aiSuggestionsEnabled && expandedRows.has(log.id) && log.ai_suggestion && (
+                      <tr className="suggestion-row">
+                        <td colSpan="7">
+                          <div className="ai-suggestion-content">
+                            <strong>💡 Home Remedy Suggestions:</strong>
+                            <div className="suggestion-text">{log.ai_suggestion}</div>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
