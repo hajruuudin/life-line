@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react'
 import { googleCalendarService } from '../services/googleCalendar'
 import EventDetailModal from './modals/EventDetailModal'
 import { FiCalendar, FiAlertCircle } from 'react-icons/fi'
 import './CalendarOverview.css'
 
-function CalendarOverview() {
+const CalendarOverview = forwardRef(function CalendarOverview(props, ref) {
   const [eventsByDate, setEventsByDate] = useState({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -32,6 +32,10 @@ function CalendarOverview() {
   useEffect(() => {
     loadEvents()
   }, [loadEvents])
+
+  useImperativeHandle(ref, () => ({
+    refresh: loadEvents
+  }))
 
   // Generate next 7 days
   const getNext7Days = () => {
@@ -180,6 +184,6 @@ function CalendarOverview() {
       )}
     </div>
   )
-}
+})
 
 export default CalendarOverview

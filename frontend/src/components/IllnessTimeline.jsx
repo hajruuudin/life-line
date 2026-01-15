@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react'
 import { illnessLogsService } from '../services/illnessLogs'
 import { FiThermometer, FiTrash2, FiFilter } from 'react-icons/fi'
 import './IllnessTimeline.css'
 
-function IllnessTimeline({ familyMembers }) {
+const IllnessTimeline = forwardRef(function IllnessTimeline({ familyMembers }, ref) {
   const [logs, setLogs] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -26,6 +26,10 @@ function IllnessTimeline({ familyMembers }) {
   useEffect(() => {
     loadLogs()
   }, [loadLogs])
+
+  useImperativeHandle(ref, () => ({
+    refresh: loadLogs
+  }))
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this illness log?')) {
@@ -162,6 +166,6 @@ function IllnessTimeline({ familyMembers }) {
       </div>
     </div>
   )
-}
+})
 
 export default IllnessTimeline

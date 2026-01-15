@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
+import toast from 'react-hot-toast'
 import { googleDriveService } from '../services/googleDrive'
 import DeleteFileModal from './modals/DeleteFileModal'
 import { FiFile, FiTrash2, FiUploadCloud, FiZap, FiXCircle, FiPlus } from 'react-icons/fi'
@@ -36,9 +37,10 @@ function DriveSection() {
       setUploading(true)
       try {
         await googleDriveService.uploadFile(acceptedFiles[0])
+        toast.success('File uploaded successfully!')
         loadFiles()
       } catch (error) {
-        alert(error.response?.data?.detail || 'Failed to upload file')
+        toast.error(error.response?.data?.detail || 'Failed to upload file')
       } finally {
         setUploading(false)
       }
@@ -51,6 +53,9 @@ function DriveSection() {
     noClick: true,
     noKeyboard: true,
     multiple: false,
+    accept: {
+      'application/pdf': ['.pdf']
+    }
   })
 
   const handleDeleteClick = (file) => {
@@ -119,6 +124,7 @@ function DriveSection() {
         <input
           id="drive-file-input"
           type="file"
+          accept="application/pdf,.pdf"
           style={{ display: 'none' }}
           onChange={(e) => onDrop(Array.from(e.target.files))}
         />
@@ -130,7 +136,7 @@ function DriveSection() {
           <h4 className="empty-state-title">Drag & drop to upload</h4>
           <p className="empty-state-subtitle">or click the button to select a file</p>
           <label className="upload-button-styled">
-            <input type="file" onChange={(e) => onDrop(Array.from(e.target.files))} />
+            <input type="file" accept="application/pdf,.pdf" onChange={(e) => onDrop(Array.from(e.target.files))} />
             {uploading ? 'Uploading...' : 'Browse Files'}
           </label>
         </div>

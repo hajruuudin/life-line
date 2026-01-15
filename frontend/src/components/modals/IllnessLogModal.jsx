@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { illnessLogsService } from '../../services/illnessLogs'
 import './Modal.css'
 
-function IllnessLogModal({ familyMembers, onClose }) {
+function IllnessLogModal({ familyMembers, onClose, onSuccess }) {
   const [formData, setFormData] = useState({
     family_member_id: '',
     illness_name: '',
@@ -26,6 +27,8 @@ function IllnessLogModal({ familyMembers, onClose }) {
         end_date: formData.end_date || null,
         notes: formData.notes || null,
       })
+      toast.success('Illness logged successfully!')
+      if (onSuccess) onSuccess()
       onClose()
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to log illness')

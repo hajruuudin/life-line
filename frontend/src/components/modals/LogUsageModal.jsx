@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { medicationUsageService } from '../../services/medicationUsage'
 import './Modal.css'
 
@@ -22,6 +23,7 @@ function LogUsageModal({ familyMembers, medications, onClose }) {
         medication_id: parseInt(formData.medication_id),
         quantity_used: parseInt(formData.quantity_used),
       })
+      toast.success('Medication usage logged successfully!')
       onClose()
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to log usage')

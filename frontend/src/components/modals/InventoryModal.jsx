@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { medicationsService } from '../../services/medications'
 import './Modal.css'
 
@@ -22,6 +23,7 @@ function InventoryModal({ onClose }) {
         quantity: parseInt(formData.quantity),
         expiration_date: formData.expiration_date || null,
       })
+      toast.success('Medication added successfully!')
       onClose()
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to add medication')

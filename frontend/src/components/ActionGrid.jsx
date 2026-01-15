@@ -7,7 +7,7 @@ import IllnessLogModal from './modals/IllnessLogModal';
 import { FaBoxOpen, FaUsers, FaCalendarAlt, FaPrescriptionBottle, FaThermometerHalf } from 'react-icons/fa';
 import './ActionGrid.css';
 
-function ActionGrid({ familyMembers, medications, onDataChange }) {
+function ActionGrid({ familyMembers, medications, onDataChange, onIllnessRefresh, onCalendarRefresh }) {
   const [activeModal, setActiveModal] = useState(null);
 
   const closeModal = () => {
@@ -17,6 +17,17 @@ function ActionGrid({ familyMembers, medications, onDataChange }) {
   const handleModalClose = () => {
     closeModal();
     onDataChange();
+  };
+
+  const handleIllnessModalClose = () => {
+    closeModal();
+    onDataChange();
+    if (onIllnessRefresh) onIllnessRefresh();
+  };
+
+  const handleCalendarModalClose = () => {
+    closeModal();
+    if (onCalendarRefresh) onCalendarRefresh();
   };
 
   return (
@@ -63,7 +74,7 @@ function ActionGrid({ familyMembers, medications, onDataChange }) {
         <FamilyMemberModal onClose={handleModalClose} />
       )}
       {activeModal === 'schedule-event' && (
-        <ScheduleEventModal onClose={closeModal} />
+        <ScheduleEventModal onClose={closeModal} onSuccess={onCalendarRefresh} />
       )}
       {activeModal === 'log-usage' && (
         <LogUsageModal
@@ -75,7 +86,8 @@ function ActionGrid({ familyMembers, medications, onDataChange }) {
       {activeModal === 'log-illness' && (
         <IllnessLogModal
           familyMembers={familyMembers}
-          onClose={handleModalClose}
+          onClose={handleIllnessModalClose}
+          onSuccess={onIllnessRefresh}
         />
       )}
     </section>

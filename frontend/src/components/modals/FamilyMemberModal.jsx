@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 import { familyMembersService } from '../../services/familyMembers'
 import './Modal.css'
 
@@ -20,6 +21,7 @@ function FamilyMemberModal({ onClose }) {
         name: formData.name,
         date_of_birth: formData.date_of_birth || null,
       })
+      toast.success('Family member added successfully!')
       onClose()
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to add family member')
