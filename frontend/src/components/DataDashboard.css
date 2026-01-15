@@ -1,6 +1,9 @@
 .data-dashboard {
   margin-bottom: 2rem;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .dashboard-row {
@@ -24,6 +27,10 @@
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
+  
+  .data-dashboard {
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -36,5 +43,9 @@
 
   .dashboard-row {
     gap: 0;
+  }
+  
+  .data-dashboard {
+    gap: 1rem;
   }
 }

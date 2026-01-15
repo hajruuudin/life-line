@@ -73,6 +73,10 @@
   color: var(--cyan-primary);
 }
 
+.drive-section.modern .empty-state-icon.disabled {
+  color: var(--text-secondary);
+}
+
 .drive-section.modern .empty-state-title {
   font-size: 1.1rem;
   font-weight: 600;

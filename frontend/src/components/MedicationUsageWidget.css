@@ -1,0 +1,215 @@
+/* Medication Usage Widget Styles */
+.medication-usage-widget.modern {
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.medication-usage-widget.modern .section-header {
+  background-color: var(--bg-dark-accent);
+  padding: 1rem 1.5rem;
+  border-radius: 1rem 1rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.medication-usage-widget.modern .section-title {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.medication-usage-widget.modern .section-icon {
+  color: var(--cyan-primary);
+}
+
+/* Filter */
+.medication-usage-widget .filter-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.medication-usage-widget .filter-icon {
+  color: var(--text-secondary);
+}
+
+.medication-usage-widget .filter-select {
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.medication-usage-widget .filter-select:focus {
+  outline: none;
+  border-color: var(--cyan-primary);
+}
+
+/* Content */
+.medication-usage-widget.modern .widget-content {
+  padding: 1.5rem;
+  background-color: var(--bg-dark-accent);
+  border-radius: 0 0 1rem 1rem;
+}
+
+.medication-usage-widget.modern .loading-state,
+.medication-usage-widget.modern .error-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  color: var(--text-secondary);
+  padding: 2rem;
+}
+
+.medication-usage-widget.modern .error-state {
+  color: var(--red-500);
+}
+
+/* Empty State */
+.medication-usage-widget.modern .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 3rem 1.5rem;
+}
+
+.medication-usage-widget.modern .empty-state-icon {
+  margin-bottom: 1rem;
+  color: var(--cyan-primary);
+}
+
+.medication-usage-widget.modern .empty-state-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.medication-usage-widget.modern .empty-state-subtitle {
+  font-size: 0.9rem;
+  max-width: 300px;
+}
+
+/* Table */
+.usage-table-container {
+  overflow-x: auto;
+}
+
+.usage-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.75rem;
+}
+
+.usage-table th {
+  padding: 0 1rem 1rem 1rem;
+  text-align: left;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.usage-table td {
+  padding: 1rem;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.usage-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.usage-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.usage-table td:first-child {
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.usage-table td:last-child {
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+.usage-table .member-name {
+  font-weight: 600;
+  color: var(--cyan-primary);
+}
+
+.usage-table .medication-name {
+  font-weight: 500;
+}
+
+.usage-table .date-cell {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Quantity Pill */
+.quantity-pill {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+/* Alignment */
+.medication-usage-widget .text-center {
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .medication-usage-widget.modern .section-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .medication-usage-widget .filter-container {
+    width: 100%;
+  }
+
+  .medication-usage-widget .filter-select {
+    flex: 1;
+  }
+
+  .medication-usage-widget.modern .widget-content {
+    padding: 1rem;
+  }
+
+  .usage-table {
+    font-size: 0.85rem;
+  }
+
+  .usage-table th,
+  .usage-table td {
+    padding: 0.75rem 0.5rem;
+  }
+}

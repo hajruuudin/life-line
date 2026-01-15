@@ -8,12 +8,25 @@ from google.auth.transport.requests import Request
 from app.config import settings
 from app.dao.google_credentials_dao import GoogleCredentialsDAO
 from app.dao.user_dao import UserDAO
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import io
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class GoogleDriveService:
     """Business logic for Google Drive integration."""
+    
+    @staticmethod
+    def _ensure_naive_utc(dt: Optional[datetime]) -> Optional[datetime]:
+        """Ensure datetime is naive UTC (Google auth library expects naive UTC)."""
+        if dt is None:
+            return None
+        if dt.tzinfo is not None:
+            # Convert to UTC and remove timezone info
+            return dt.astimezone(timezone.utc).replace(tzinfo=None)
+        return dt
     
     @staticmethod
     def get_credentials(user_id: int) -> Optional[Credentials]:
@@ -21,6 +34,9 @@ class GoogleDriveService:
         creds_data = GoogleCredentialsDAO.get_credentials_by_user_id(user_id)
         if not creds_data:
             return None
+        
+        # Google auth library expects naive UTC datetime for expiry
+        token_expiry = GoogleDriveService._ensure_naive_utc(creds_data["token_expiry"])
         
         return Credentials(
             token=creds_data["access_token"],
@@ -32,8 +48,48 @@ class GoogleDriveService:
                 "https://www.googleapis.com/auth/drive",
                 "https://www.googleapis.com/auth/calendar",
             ],
-            expiry=creds_data["token_expiry"],
+            expiry=token_expiry,
         )
+    
+    @staticmethod
+    def _refresh_credentials_if_needed(credentials: Credentials, user_id: int) -> Credentials:
+        """Refresh credentials if expired or expiring soon (within 5 minutes)."""
+        if not credentials.refresh_token:
+            logger.warning(f"No refresh token available for user {user_id}")
+            return credentials
+        
+        needs_refresh = False
+        now = datetime.utcnow()  # Use naive UTC to match Google's internal comparison
+        
+        # Check if expired or expiring soon
+        if credentials.expiry:
+            time_until_expiry = credentials.expiry - now
+            if time_until_expiry.total_seconds() < 300:  # Less than 5 minutes
+                needs_refresh = True
+                if time_until_expiry.total_seconds() <= 0:
+                    logger.info(f"Credentials expired for user {user_id}, refreshing...")
+                else:
+                    logger.info(f"Credentials expiring soon for user {user_id}, refreshing...")
+        elif credentials.expired:
+            needs_refresh = True
+            logger.info(f"Credentials marked as expired for user {user_id}, refreshing...")
+        
+        if needs_refresh:
+            try:
+                credentials.refresh(Request())
+                # Store expiry as-is (naive UTC) since that's what Google returns
+                GoogleCredentialsDAO.create_or_update_credentials(
+                    user_id=user_id,
+                    access_token=credentials.token,
+                    refresh_token=credentials.refresh_token or credentials._refresh_token,
+                    token_expiry=credentials.expiry if credentials.expiry else datetime.utcnow() + timedelta(hours=1),
+                )
+                logger.info(f"Successfully refreshed credentials for user {user_id}")
+            except Exception as e:
+                logger.error(f"Failed to refresh credentials for user {user_id}: {e}")
+                raise
+        
+        return credentials
 
     @staticmethod
     def find_or_create_app_folder(user_id: int, credentials: Optional[Credentials], connection=None) -> str:
@@ -81,16 +137,8 @@ class GoogleDriveService:
 
         drive_folder_id = user["drive_folder_id"]
 
-        # Refresh token if expired
-        if credentials.expired:
-            credentials.refresh(Request())
-            # Update stored credentials
-            GoogleCredentialsDAO.create_or_update_credentials(
-                user_id=user_id,
-                access_token=credentials.token,
-                refresh_token=credentials.refresh_token,
-                token_expiry=credentials.expiry if credentials.expiry else datetime.now(timezone.utc),
-            )
+        # Refresh token if needed
+        credentials = GoogleDriveService._refresh_credentials_if_needed(credentials, user_id)
         
         service = build("drive", "v3", credentials=credentials)
         query = f"'{drive_folder_id}' in parents and trashed=false"
@@ -114,15 +162,8 @@ class GoogleDriveService:
 
         drive_folder_id = user["drive_folder_id"]
         
-        # Refresh token if expired
-        if credentials.expired:
-            credentials.refresh(Request())
-            GoogleCredentialsDAO.create_or_update_credentials(
-                user_id=user_id,
-                access_token=credentials.token,
-                refresh_token=credentials.refresh_token,
-                token_expiry=credentials.expiry if credentials.expiry else datetime.now(timezone.utc),
-            )
+        # Refresh token if needed
+        credentials = GoogleDriveService._refresh_credentials_if_needed(credentials, user_id)
         
         service = build("drive", "v3", credentials=credentials)
         file_metadata = {"name": file_name, "parents": [drive_folder_id]}
@@ -138,15 +179,8 @@ class GoogleDriveService:
         if not credentials:
             raise ValueError("Google credentials not found. Please authenticate first.")
 
-        # Refresh token if expired
-        if credentials.expired:
-            credentials.refresh(Request())
-            GoogleCredentialsDAO.create_or_update_credentials(
-                user_id=user_id,
-                access_token=credentials.token,
-                refresh_token=credentials.refresh_token,
-                token_expiry=credentials.expiry if credentials.expiry else datetime.now(timezone.utc),
-            )
+        # Refresh token if needed
+        credentials = GoogleDriveService._refresh_credentials_if_needed(credentials, user_id)
 
         service = build("drive", "v3", credentials=credentials)
         service.files().delete(fileId=file_id).execute()
@@ -158,15 +192,8 @@ class GoogleDriveService:
         if not credentials:
             raise ValueError("Google credentials not found. Please authenticate first.")
 
-        # Refresh token if expired
-        if credentials.expired:
-            credentials.refresh(Request())
-            GoogleCredentialsDAO.create_or_update_credentials(
-                user_id=user_id,
-                access_token=credentials.token,
-                refresh_token=credentials.refresh_token,
-                token_expiry=credentials.expiry if credentials.expiry else datetime.now(timezone.utc),
-            )
+        # Refresh token if needed
+        credentials = GoogleDriveService._refresh_credentials_if_needed(credentials, user_id)
 
         service = build("drive", "v3", credentials=credentials)
         request = service.files().get_media(fileId=file_id)
@@ -175,6 +202,6 @@ class GoogleDriveService:
         done = False
         while done is False:
             status, done = downloader.next_chunk()
-            print(f"Download {int(status.progress() * 100)}.")
+            logger.debug(f"Download {int(status.progress() * 100)}%")
         return file_data.getvalue()
 

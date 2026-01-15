@@ -4,6 +4,7 @@ from datetime import datetime, timedelta, timezone
 from app.dao.google_credentials_dao import GoogleCredentialsDAO
 from app.config import settings
 from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import logging
@@ -25,11 +26,24 @@ class GoogleCalendarService:
     """
     
     @staticmethod
+    def _ensure_naive_utc(dt: Optional[datetime]) -> Optional[datetime]:
+        """Ensure datetime is naive UTC (Google auth library expects naive UTC)."""
+        if dt is None:
+            return None
+        if dt.tzinfo is not None:
+            # Convert to UTC and remove timezone info
+            return dt.astimezone(timezone.utc).replace(tzinfo=None)
+        return dt
+    
+    @staticmethod
     def get_credentials(user_id: int) -> Credentials:
         """Get Google credentials for a user."""
         creds_data = GoogleCredentialsDAO.get_credentials_by_user_id(user_id)
         if not creds_data:
             raise ValueError("Google credentials not found. Please authenticate first.")
+        
+        # Google auth library expects naive UTC datetime for expiry
+        token_expiry = GoogleCalendarService._ensure_naive_utc(creds_data["token_expiry"])
         
         return Credentials(
             token=creds_data["access_token"],
@@ -40,21 +54,47 @@ class GoogleCalendarService:
             scopes=[
                 "https://www.googleapis.com/auth/calendar",
             ],
-            expiry=creds_data["token_expiry"],
+            expiry=token_expiry,
         )
     
     @staticmethod
     def _refresh_credentials_if_needed(credentials: Credentials, user_id: int) -> Credentials:
-        """Refresh credentials if expired and update in database."""
-        if credentials.expired:
-            from google.auth.transport.requests import Request
-            credentials.refresh(Request())
-            GoogleCredentialsDAO.create_or_update_credentials(
-                user_id=user_id,
-                access_token=credentials.token,
-                refresh_token=credentials.refresh_token,
-                token_expiry=credentials.expiry if credentials.expiry else datetime.now(timezone.utc),
-            )
+        """Refresh credentials if expired or expiring soon (within 5 minutes)."""
+        if not credentials.refresh_token:
+            logger.warning(f"No refresh token available for user {user_id}")
+            return credentials
+        
+        needs_refresh = False
+        now = datetime.utcnow()  # Use naive UTC to match Google's internal comparison
+        
+        # Check if expired or expiring soon
+        if credentials.expiry:
+            time_until_expiry = credentials.expiry - now
+            if time_until_expiry.total_seconds() < 300:  # Less than 5 minutes
+                needs_refresh = True
+                if time_until_expiry.total_seconds() <= 0:
+                    logger.info(f"Credentials expired for user {user_id}, refreshing...")
+                else:
+                    logger.info(f"Credentials expiring soon for user {user_id}, refreshing...")
+        elif credentials.expired:
+            needs_refresh = True
+            logger.info(f"Credentials marked as expired for user {user_id}, refreshing...")
+        
+        if needs_refresh:
+            try:
+                credentials.refresh(Request())
+                # Store expiry as-is (naive UTC) since that's what Google returns
+                GoogleCredentialsDAO.create_or_update_credentials(
+                    user_id=user_id,
+                    access_token=credentials.token,
+                    refresh_token=credentials.refresh_token or credentials._refresh_token,
+                    token_expiry=credentials.expiry if credentials.expiry else datetime.utcnow() + timedelta(hours=1),
+                )
+                logger.info(f"Successfully refreshed credentials for user {user_id}")
+            except Exception as e:
+                logger.error(f"Failed to refresh credentials for user {user_id}: {e}")
+                raise
+        
         return credentials
     
     @staticmethod

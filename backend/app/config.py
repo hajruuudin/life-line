@@ -19,6 +19,14 @@ class Settings(BaseSettings):
     n8n_api_key: str
     n8n_webhook_auth_key: str
     
+    # AI (Hugging Face - optional, works without key but with rate limits)
+    huggingface_api_key: Optional[str] = None
+    
+    # Feature Toggles - AI Features
+    feature_ai_chat_enabled: bool = True
+    feature_ai_illness_suggestions_enabled: bool = True
+    feature_ai_drive_enabled: bool = True
+    
     # JWT
     jwt_secret_key: str
     jwt_algorithm: str = "HS256"

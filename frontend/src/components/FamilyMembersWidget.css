@@ -1,0 +1,267 @@
+/* Family Members Widget Styles */
+.family-members-widget.modern {
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.family-members-widget.modern .section-header {
+  background-color: var(--bg-dark-accent);
+  padding: 1rem 1.5rem;
+  border-radius: 1rem 1rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.family-members-widget.modern .section-title {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.family-members-widget.modern .section-icon {
+  color: var(--cyan-primary);
+}
+
+.member-count {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  background-color: var(--bg-dark);
+  padding: 0.3rem 0.8rem;
+  border-radius: 1rem;
+}
+
+/* Content */
+.family-members-widget.modern .widget-content {
+  padding: 1.5rem;
+  background-color: var(--bg-dark-accent);
+  border-radius: 0 0 1rem 1rem;
+}
+
+/* Empty State */
+.family-members-widget.modern .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 3rem 1.5rem;
+}
+
+.family-members-widget.modern .empty-state-icon {
+  margin-bottom: 1rem;
+  color: var(--cyan-primary);
+}
+
+.family-members-widget.modern .empty-state-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.family-members-widget.modern .empty-state-subtitle {
+  font-size: 0.9rem;
+  max-width: 300px;
+}
+
+/* Table */
+.members-table-container {
+  overflow-x: auto;
+}
+
+.members-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.75rem;
+}
+
+.members-table th {
+  padding: 0 1rem 1rem 1rem;
+  text-align: left;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.members-table td {
+  padding: 1rem;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.members-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.members-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.members-table td:first-child {
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.members-table td:last-child {
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+.members-table .member-name {
+  font-weight: 600;
+  color: var(--cyan-primary);
+}
+
+/* Age Pill */
+.age-pill {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background-color: rgba(34, 211, 238, 0.2);
+  color: var(--cyan-primary);
+}
+
+/* Actions */
+.actions-cell {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.info-icon-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.info-icon-button:hover {
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.edit-icon-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.edit-icon-button:hover {
+  color: var(--cyan-primary);
+  background-color: rgba(34, 211, 238, 0.1);
+}
+
+.family-members-widget .delete-icon-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.family-members-widget .delete-icon-button:hover {
+  color: var(--red-500);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.family-members-widget .delete-icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Alignment */
+.family-members-widget .text-center {
+  text-align: center;
+}
+
+.family-members-widget .text-right {
+  text-align: right;
+}
+
+/* Profession cell */
+.profession-cell {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Health Notes Row */
+.health-notes-row td {
+  background-color: var(--bg-dark) !important;
+  border-radius: 0 !important;
+  padding-top: 0 !important;
+}
+
+.health-notes-row:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.health-notes-content {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin: 0 1rem 0.5rem 1rem;
+}
+
+.health-notes-content strong {
+  color: #10b981;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.health-notes-content p {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .family-members-widget.modern .section-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .family-members-widget.modern .widget-content {
+    padding: 1rem;
+  }
+
+  .members-table {
+    font-size: 0.85rem;
+  }
+
+  .members-table th,
+  .members-table td {
+    padding: 0.75rem 0.5rem;
+  }
+}

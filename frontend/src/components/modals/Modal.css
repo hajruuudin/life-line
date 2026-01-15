@@ -90,6 +90,16 @@
 .form-group {
   margin-bottom: 1.5rem;
   text-align: left;
+  flex: 1;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1;
 }
 
 .form-label {

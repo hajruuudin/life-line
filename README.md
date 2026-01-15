@@ -5,11 +5,6 @@
 
 LifeLine is a comprehensive web application designed to help families manage their health. Track medications, log illnesses, store medical documents, schedule appointments, and get AI-powered medical assistance—all in one place.
 
-## 🌐 Live Deployment
-
-**A fully deployed version of LifeLine is available as of January 12th, 2026.** `https://life-line-flax.vercel.app`
-
-
 ## ✨ What is LifeLine?
 
 LifeLine helps you:
@@ -25,28 +20,6 @@ LifeLine helps you:
 | 🤖 **AI Assistant** | Chat with an AI that knows your medical history (RAG-powered) |
 | 📧 **Email Summaries** | Receive AI-generated summaries when uploading documents |
 
-## 🏗️ Architecture Overview
-
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Frontend  │────▶│   Backend   │────▶│  PostgreSQL │
-│   (React)   │     │  (FastAPI)  │     │  (Supabase) │
-│   Vercel    │     │   Docker    │     │             │
-└─────────────┘     └──────┬──────┘     └─────────────┘
-                          │
-                          ▼
-                   ┌─────────────┐
-                   │     N8N     │
-                   │ (Automation)│
-                   └──────┬──────┘
-                          │
-            ┌─────────────┼─────────────┐
-            ▼             ▼             ▼
-      ┌──────────┐ ┌──────────┐ ┌──────────┐
-      │  Gemini  │ │  Gmail   │ │ PGVector │
-      │   (AI)   │ │ (Email)  │ │  (RAG)   │
-      └──────────┘ └──────────┘ └──────────┘
-```
 
 **Tech Stack:**
 - **Frontend**: React 19, Vite, React Router 7
@@ -59,16 +32,14 @@ For detailed architecture documentation, see [PROJECT_INFRASTRUCTURE.md](./PROJE
 
 ## 🚀 Self-Hosting Guide
 
-Want to run LifeLine yourself? Follow these steps to deploy all components. It's a bit of a process, so take your time
+For self-hosting, follow these steps to deploy all components. It's a bit of a process, so take your time
 
 ### Prerequisites
 
-- **Docker** and **Docker Compose** (for containerized deployment)
 - **Node.js 18+** and npm (for frontend development)
 - **Python 3.11+** (for backend development)
 - **PostgreSQL 14+** with PGVector extension
 - **Google Cloud Console** account (for OAuth and APIs)
-- **N8N instance** (self-hosted or cloud)
 
 ### Step 1: Clone the Repository
 
@@ -93,6 +64,8 @@ psql lifeline -c "CREATE EXTENSION IF NOT EXISTS vector;"
 cd backend
 alembic upgrade head
 ```
+
+In case alembic does not work, the full schema is available under /database/schema.sql
 
 **Option B: Supabase (Recommended for production)**
 1. Create a new project at [supabase.com](https://supabase.com)
@@ -123,34 +96,9 @@ cd backend
 cp env.example .env
 ```
 
-Edit `.env` with your configuration:
+Edit `.env` with your configuration based on the instructions inside the example file.
 
-```env
-# Database
-DATABASE_URL=postgresql://user:password@localhost:5432/lifeline
-
-# Google OAuth
-GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=your-client-secret
-GOOGLE_REDIRECT_URI=http://localhost:8080/auth/callback
-
-# JWT (generate a secure random string)
-JWT_SECRET_KEY=your-super-secret-key-min-32-chars
-JWT_ALGORITHM=HS256
-JWT_ACCESS_TOKEN_EXPIRE_MINUTES=1440
-
-# Server
-BACKEND_PORT=8080
-FRONTEND_URL=http://localhost:4200
-ENVIRONMENT=development
-
-# N8N Integration
-N8N_URL=https://your-n8n-instance.com
-N8N_API_KEY=your-n8n-api-key
-N8N_WEBHOOK_AUTH_KEY=your-webhook-secret
-```
-
-**Run locally (development):**
+**Run locally:**
 ```bash
 # Create virtual environment
 python -m venv venv
@@ -164,19 +112,6 @@ alembic upgrade head
 
 # Start the server
 uvicorn app.main:app --reload --port 8080
-```
-
-**Run with Docker (production):**
-```bash
-# Build the image
-docker build -t lifeline-backend .
-
-# Run the container
-docker run -d \
-  --name lifeline-backend \
-  -p 8080:8080 \
-  --env-file .env \
-  lifeline-backend
 ```
 
 The API will be available at `http://localhost:8080` with documentation at `/docs`.
@@ -205,15 +140,7 @@ The frontend will be available at `http://localhost:4200`.
 npm run build
 ```
 
-The built files will be in `frontend/dist/`. Deploy to Vercel, Netlify, or any static hosting:
-
-**Deploy to Vercel:**
-```bash
-npm install -g vercel
-vercel --prod
-```
-
-### Step 6: Set Up N8N (AI & Automation)
+### Step 6: Set Up N8N (AI & Automation) - Optional
 
 N8N powers the AI chatbot and email automation features. This is optional as the main functions of the application can run without this. if You opt not to use this, please either comment out or remove the applications implementation of the Chatbot Widget, as it might break the UI.
 
@@ -295,39 +222,6 @@ life-line/
 └── README.md                   # This file
 ```
 
-## 🔧 Environment Variables Reference
-
-### Backend
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@host:5432/db` |
-| `GOOGLE_CLIENT_ID` | OAuth client ID | `xxx.apps.googleusercontent.com` |
-| `GOOGLE_CLIENT_SECRET` | OAuth client secret | `GOCSPX-xxx` |
-| `GOOGLE_REDIRECT_URI` | OAuth callback URL | `http://localhost:8080/auth/callback` |
-| `JWT_SECRET_KEY` | Secret for signing tokens | Random 32+ char string |
-| `JWT_ACCESS_TOKEN_EXPIRE_MINUTES` | Token lifetime | `1440` (24 hours) |
-| `FRONTEND_URL` | Frontend origin for CORS | `http://localhost:4200` |
-| `N8N_URL` | N8N instance URL | `https://your-n8n.com` |
-| `N8N_WEBHOOK_AUTH_KEY` | Webhook authentication | Random secret string |
-
-### Frontend
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `VITE_API_BASE_URL` | Backend API URL | `http://localhost:8080` |
-
-## 🐛 Troubleshooting
-
-| Problem | Solution |
-|---------|----------|
-| **OAuth redirect mismatch** | Ensure `GOOGLE_REDIRECT_URI` exactly matches Google Console config |
-| **CORS errors** | Check `FRONTEND_URL` in backend `.env` matches actual frontend URL |
-| **Database connection failed** | Verify PostgreSQL is running and `DATABASE_URL` is correct |
-| **N8N webhook not triggering** | Check `N8N_URL` and `N8N_WEBHOOK_AUTH_KEY` are set correctly |
-| **AI chatbot not responding** | Verify N8N workflow is active and credentials are configured |
-| **Drive/Calendar not working** | Re-authenticate with Google (tokens may have expired) |
-
 ## 📚 Additional Documentation
 
 - **[PROJECT_INFRASTRUCTURE.md](./PROJECT_INFRASTRUCTURE.md)** - Complete technical documentation including:
@@ -338,10 +232,8 @@ life-line/
   - N8N workflow details
   - Testing strategy
   - Security considerations
-
 - **API Documentation** - Available at `/docs` when backend is running (Swagger UI)
-- **SRS Document** - https://docs.google.com/document/d/1Y_vGDxNaCAM6ZdlmlKZ-lFoHUWJWYMwTbfI3h4AU8iA/edit?usp=sharing
-- **Prompts used for development** - https://docs.google.com/document/d/1_WHQp4J4ivLqGYCMGuSkqnQN0PX_OjrCJtQgFTI6OUw/edit?usp=sharing
+- **SRS Document** - 
 
 ## 📄 License
 

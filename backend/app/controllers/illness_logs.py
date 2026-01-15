@@ -25,7 +25,7 @@ async def create_illness_log(
 ):
     """Create a new illness log."""
     try:
-        log = IllnessLogService.create_illness_log(current_user["id"], log_data)
+        log = await IllnessLogService.create_illness_log(current_user["id"], log_data)
         return log
     except ValueError as e:
         raise HTTPException(

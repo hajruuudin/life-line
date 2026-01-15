@@ -14,15 +14,16 @@ class IllnessLogDAO:
         start_date: date,
         end_date: Optional[date] = None,
         notes: Optional[str] = None,
+        ai_suggestion: Optional[str] = None,
         connection=None
     ) -> Dict[str, Any]:
         """Create a new illness log."""
         with db.get_cursor(connection=connection) as cursor:
             cursor.execute("""
-                INSERT INTO illness_logs (family_member_id, illness_name, start_date, end_date, notes)
-                VALUES (%s, %s, %s, %s, %s)
-                RETURNING id, family_member_id, illness_name, start_date, end_date, notes, created_at, updated_at
-            """, (family_member_id, illness_name, start_date, end_date, notes))
+                INSERT INTO illness_logs (family_member_id, illness_name, start_date, end_date, notes, ai_suggestion)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                RETURNING id, family_member_id, illness_name, start_date, end_date, notes, ai_suggestion, created_at, updated_at
+            """, (family_member_id, illness_name, start_date, end_date, notes, ai_suggestion))
             return dict(cursor.fetchone())
     
     @staticmethod
@@ -32,7 +33,7 @@ class IllnessLogDAO:
             if family_member_id:
                 cursor.execute("""
                     SELECT il.id, il.family_member_id, fm.name as family_member_name,
-                           il.illness_name, il.start_date, il.end_date, il.notes,
+                           il.illness_name, il.start_date, il.end_date, il.notes, il.ai_suggestion,
                            il.created_at, il.updated_at
                     FROM illness_logs il
                     JOIN family_members fm ON il.family_member_id = fm.id
@@ -42,7 +43,7 @@ class IllnessLogDAO:
             else:
                 cursor.execute("""
                     SELECT il.id, il.family_member_id, fm.name as family_member_name,
-                           il.illness_name, il.start_date, il.end_date, il.notes,
+                           il.illness_name, il.start_date, il.end_date, il.notes, il.ai_suggestion,
                            il.created_at, il.updated_at
                     FROM illness_logs il
                     JOIN family_members fm ON il.family_member_id = fm.id
@@ -57,7 +58,7 @@ class IllnessLogDAO:
         with db.get_cursor(connection=connection) as cursor:
             cursor.execute("""
                 SELECT il.id, il.family_member_id, fm.name as family_member_name,
-                       il.illness_name, il.start_date, il.end_date, il.notes,
+                       il.illness_name, il.start_date, il.end_date, il.notes, il.ai_suggestion,
                        il.created_at, il.updated_at
                 FROM illness_logs il
                 JOIN family_members fm ON il.family_member_id = fm.id
@@ -74,6 +75,7 @@ class IllnessLogDAO:
         start_date: Optional[date] = None,
         end_date: Optional[date] = None,
         notes: Optional[str] = None,
+        ai_suggestion: Optional[str] = None,
         connection=None
     ) -> Optional[Dict[str, Any]]:
         """Update an illness log."""
@@ -92,6 +94,9 @@ class IllnessLogDAO:
         if notes is not None:
             updates.append("notes = %s")
             values.append(notes)
+        if ai_suggestion is not None:
+            updates.append("ai_suggestion = %s")
+            values.append(ai_suggestion)
         
         if not updates:
             return IllnessLogDAO.get_illness_log_by_id(illness_log_id, user_id, connection=connection)

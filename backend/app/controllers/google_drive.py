@@ -15,6 +15,8 @@ async def list_drive_files(current_user: dict = Depends(get_current_user)):
     
     Returns empty list if credentials not set up.
     """
+    import logging
+    logger = logging.getLogger(__name__)
     try:
         files = GoogleDriveService.list_files(current_user["id"])
         return {"files": files, "connected": True}
@@ -22,6 +24,7 @@ async def list_drive_files(current_user: dict = Depends(get_current_user)):
         # Credentials not found
         return {"files": [], "connected": False, "message": str(e)}
     except Exception as e:
+        logger.exception(f"Error listing drive files for user {current_user['id']}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error listing files: {str(e)}",
