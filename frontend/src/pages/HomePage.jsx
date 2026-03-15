@@ -12,15 +12,23 @@ import { featuresService } from '../services/features'
 import { auth } from '../utils/auth.util'
 import './HomePage.css'
 
+const parseBooleanFlag = (value, fallback = true) => {
+  if (value === undefined || value === null || value === '') return fallback
+  if (typeof value === 'boolean') return value
+  if (typeof value === 'string') return value.toLowerCase() === 'true'
+  return Boolean(value)
+}
+
+const envFeatureFlags = {
+  ai_chat_enabled: parseBooleanFlag(import.meta.env.VITE_FEATURE_AI_CHAT_ENABLED, true),
+  ai_illness_suggestions_enabled: parseBooleanFlag(import.meta.env.VITE_FEATURE_AI_ILLNESS_SUGGESTIONS_ENABLED, true)
+}
+
 function HomePage({ setIsAuthenticated }) {
   const [familyMembers, setFamilyMembers] = useState([])
   const [medications, setMedications] = useState([])
   const [initialLoading, setInitialLoading] = useState(true)
-  const [featureFlags, setFeatureFlags] = useState({
-    ai_chat_enabled: true,
-    ai_illness_suggestions_enabled: true,
-    ai_drive_enabled: true,
-  })
+  const [featureFlags, setFeatureFlags] = useState(envFeatureFlags)
   const illnessTimelineRef = useRef(null)
   const calendarRef = useRef(null)
 
@@ -37,7 +45,13 @@ function HomePage({ setIsAuthenticated }) {
       ])
       setFamilyMembers(membersData)
       setMedications(medicationsData)
-      setFeatureFlags(flags)
+      setFeatureFlags({
+        ai_chat_enabled:
+          envFeatureFlags.ai_chat_enabled && parseBooleanFlag(flags?.ai_chat_enabled, true),
+        ai_illness_suggestions_enabled:
+          envFeatureFlags.ai_illness_suggestions_enabled &&
+          parseBooleanFlag(flags?.ai_illness_suggestions_enabled, true)
+      })
     } catch (error) {
       console.error('Error loading initial data:', error)
     } finally {
@@ -92,7 +106,6 @@ function HomePage({ setIsAuthenticated }) {
           familyMembers={familyMembers}
           onDataChange={loadData}
           ref={calendarRef}
-          aiDriveEnabled={featureFlags.ai_drive_enabled}
         />
         <IllnessTimeline 
           familyMembers={familyMembers} 

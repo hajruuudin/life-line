@@ -37,6 +37,8 @@ For self-hosting, follow these steps to deploy all components. It's a bit of a p
 
 ### Step 1: Clone the Repository
 
+This is a monorepo project, so both the backend and frontend are structured within this repository.
+
 ```bash
 git clone https://github.com/hajruuudin/life-line
 cd life-line
@@ -44,21 +46,7 @@ cd life-line
 
 ### Step 2: Set Up PostgreSQL Database
 
-You can use a local PostgreSQL instance or a cloud provider like Supabase.
-
-**Option A: Local PostgreSQL**
-```bash
-# Create database
-createdb life-line
-
-# Enable PGVector extension (required for AI features)
-psql lifeline -c "CREATE EXTENSION IF NOT EXISTS vector;"
-
-# Run initial migration
-cd backend
-alembic upgrade head
-```
-
+You can use a local PostgreSQL instance or a cloud provider like Supabase. The only important thing is to name the database as "life-line" since that is the name used within the database migrations. Migrations are handeled by alembic.
 In case alembic does not work, the full schema is available under /database/schema.sql
 
 ### Step 3: Configure Google Cloud
@@ -71,21 +59,14 @@ In case alembic does not work, the full schema is available under /database/sche
    - Google Calendar API
 4. Go to **Credentials** → **Create Credentials** → **OAuth 2.0 Client ID**
 5. Configure the OAuth consent screen
-6. Add authorized redirect URIs:
-   - Development: `http://localhost:8080/auth/callback`
-   - Production: `https://your-backend-domain.com/auth/callback`
+6. Add authorized redirect URIs: `http://localhost:4200/auth/google/callback`
 7. Save your **Client ID** and **Client Secret**
 
-### Step 4: Set Up the Backend
+### Step 4: Set Up Environment variables
 
-```bash
-cd backend
+For the backend, the environment includes setting up the Google Cloud Project credentials, Database URL and the N8N and AI features and their status (weather they are turned off or on)
 
-# Create environment file
-cp env.example .env
-```
-
-Edit `.env` with your configuration based on the instructions inside the example file.
+Copy the env.example file and name it .env within the root of the backend directory. Edit `.env` with your configuration based on the instructions inside the example file.
 
 **Run locally:**
 ```bash
@@ -105,31 +86,21 @@ uvicorn app.main:app --reload --port 8080
 
 The API will be available at `http://localhost:8080` with documentation at `/docs`.
 
-### Step 5: Set Up the Frontend
+For the frotnend, the environment setup includes placing the backend url (defaults to http://localhost:8080) as well as indicating weather the two AI features are turned on or off.
+
+Copy the env.example file and name it .env within the root of the frotnend directory. Edit `.env` with your configuration based on the instructions inside the example file.
 
 ```bash
 cd frontend
 
-# Install dependencies
-npm install
+# Install necessary dependencies
+npm i
 
-# Create environment file
-echo "VITE_API_BASE_URL=http://localhost:8080" > .env
-```
-
-**Run locally (development):**
-```bash
+# Run the frontend
 npm run dev
 ```
 
-The frontend will be available at `http://localhost:4200`.
-
-**Build for production:**
-```bash
-npm run build
-```
-
-### Step 6: Set Up N8N (AI & Automation) - Optional
+### Optional: Set Up N8N (AI & Automation)
 
 N8N powers the AI chatbot and email automation features. This is optional as the main functions of the application can run without this. if You opt not to use this, please either comment out or remove the applications implementation of the Chatbot Widget, as it might break the UI.
 
