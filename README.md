@@ -3,23 +3,17 @@
 # LifeLine
 **Family Health Tracking Application**
 
-LifeLine is a comprehensive web application designed to help families manage their health. Track medications, log illnesses, store medical documents, schedule appointments, and get AI-powered medical assistance—all in one place.
-
-## ✨ What is LifeLine?
+LifeLine is a comprehensive web application designed to help families manage their health. Track medications, log illnesses, store medical documents, schedule appointments, and get AI-powered medical assistance—all in one place. The application was developed for the purpose of a university course, was deployed to a DigitalOcean instance and, as of 15th Mar 2026, can be downloaded and executed on a local machine (with options to include AI assistance as well locally).
 
 LifeLine helps you:
-
-| Feature | Description |
-|---------|-------------|
-| 👨‍👩‍👧‍👦 **Family Members** | Add and manage health profiles for your entire family |
-| 💊 **Medication Inventory** | Track medications, quantities, and expiration dates |
-| 📝 **Usage Logging** | Record when medications are taken and by whom |
-| 🤒 **Illness Timeline** | Keep a history of illnesses for each family member |
-| 📁 **Medical Documents** | Upload and store prescriptions, lab results, etc. to Google Drive |
-| 📅 **Appointments** | Schedule medical events on a dedicated Google Calendar |
-| 🤖 **AI Assistant** | Chat with an AI that knows your medical history (RAG-powered) |
-| 📧 **Email Summaries** | Receive AI-generated summaries when uploading documents |
-
+- Add and manage health profiles for your entire family
+- Track medications, quantities, and expiration dates
+- Record when medications are taken and by whom
+- Keep a history of illnesses for each family member
+- Upload and store prescriptions, lab results, etc. to Google Drive
+- Schedule medical events on a dedicated Google Calendar
+- Chat with an AI that knows your medical history (RAG-powered)
+- Receive AI-generated summaries when uploading documents
 
 **Tech Stack:**
 - **Frontend**: React 19, Vite, React Router 7
@@ -30,7 +24,7 @@ LifeLine helps you:
 
 For detailed architecture documentation, see [PROJECT_INFRASTRUCTURE.md](./PROJECT_INFRASTRUCTURE.md).
 
-## 🚀 Self-Hosting Guide
+## Self-Hosting Guide
 
 For self-hosting, follow these steps to deploy all components. It's a bit of a process, so take your time
 
@@ -44,7 +38,7 @@ For self-hosting, follow these steps to deploy all components. It's a bit of a p
 ### Step 1: Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/hajruuudin/life-line
 cd life-line
 ```
 
@@ -66,11 +60,6 @@ alembic upgrade head
 ```
 
 In case alembic does not work, the full schema is available under /database/schema.sql
-
-**Option B: Supabase (Recommended for production)**
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Enable the Vector extension in Database → Extensions
-3. Copy the connection string for later use
 
 ### Step 3: Configure Google Cloud
 
@@ -174,25 +163,6 @@ Sign up at [n8n.io](https://n8n.io) for a managed instance.
 - 🧠 **RAG Chatbot**: AI assistant with access to your uploaded medical documents
 - 💬 **Chat Memory**: Conversation history stored in PostgreSQL
 
-### Step 7: Verify Everything Works
-
-1. **Backend Health Check:**
-   ```bash
-   curl http://localhost:8080/health
-   # Should return: {"status": "healthy"}
-   ```
-
-2. **Frontend Access:**
-   - Open `http://localhost:4200`
-   - Click "Sign in with Google"
-   - Complete OAuth flow
-
-3. **Test Features:**
-   - Add a family member
-   - Add a medication
-   - Upload a PDF document (triggers N8N workflow)
-   - Try the AI chatbot
-
 ## 📁 Project Structure
 
 ```
@@ -222,7 +192,7 @@ life-line/
 └── README.md                   # This file
 ```
 
-## 📚 Additional Documentation
+## Additional Documentation
 
 - **[PROJECT_INFRASTRUCTURE.md](./PROJECT_INFRASTRUCTURE.md)** - Complete technical documentation including:
   - Detailed architecture diagrams
