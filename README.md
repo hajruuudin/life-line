@@ -49,7 +49,7 @@ You can use a local PostgreSQL instance or a cloud provider like Supabase.
 **Option A: Local PostgreSQL**
 ```bash
 # Create database
-createdb lifeline
+createdb life-line
 
 # Enable PGVector extension (required for AI features)
 psql lifeline -c "CREATE EXTENSION IF NOT EXISTS vector;"
